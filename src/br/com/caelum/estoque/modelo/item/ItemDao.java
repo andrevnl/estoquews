@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 public class ItemDao {
@@ -24,12 +25,13 @@ public class ItemDao {
 		ArrayList<Item> resultados = new ArrayList<>();
 		Collection<Item> todosItens = ITENS.values();
 
-		if (filtros == null || filtros.isEmpty()) {
+		List<Filtro> filtrosFiltrados = filtros.stream().filter(filtro -> !filtro.getNome().isEmpty()).collect(Collectors.toList());
+		if (filtrosFiltrados == null || filtrosFiltrados.isEmpty()) {
 			resultados.addAll(todosItens);
 			return resultados;
 		}
 		
-		for(Filtro filtro : filtros) {
+		for(Filtro filtro : filtrosFiltrados) {
 			for (Item item : todosItens) {
 				
 				String tipo = filtro.getTipo().getNome();
@@ -60,8 +62,6 @@ public class ItemDao {
 	public Item quantidadeDo(String codigo) {
 		return ITENS.get(codigo);
 	}
-	
-
 	
 	private void popularItensNoMapa() {
 		ITENS.put("MEA", new Item.Builder().comCodigo("MEA").comNome("MEAN").comTipo("Livro").comQuantidade(5).build());
