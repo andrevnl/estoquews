@@ -2,3 +2,5 @@
 .idea
 .DS_Store
 /out/
+/estoquews-cliente/out/
+/estoquews-web/target/
